@@ -83,39 +83,61 @@
             const { date } = req.params;
             const { category } = req.query;
             const updateData = req.body;
-
+    
             if (!category) {
                 return res.status(400).json({ success: false, message: "Category is required." });
             }
-
+    
             if (Object.keys(updateData).length === 0) {
                 return res.status(400).json({ success: false, message: "At least one field must be updated." });
             }
-
+    
             const existingFoodItem = await FoodItem.findOne({ date, category });
+    
             if (!existingFoodItem) {
                 return res.status(404).json({ success: false, message: `Food item not found for ${date} in ${category} category.` });
             }
-
+    
+            // Merge existing data with new updates (only updating provided fields)
             const updatedFoodItem = await FoodItem.findOneAndUpdate(
                 { date, category },
-                { 
-                    morning: updateData.morning || existingFoodItem.morning,
-                    afternoon: updateData.afternoon || existingFoodItem.afternoon,
-                    night: updateData.night || existingFoodItem.night,
-                    dailyVideo: updateData.dailyVideo || existingFoodItem.dailyVideo,
-                    totalCalories: (updateData.morning?.calories || existingFoodItem.morning.calories) + 
-                                (updateData.afternoon?.calories || existingFoodItem.afternoon.calories) + 
-                                (updateData.night?.calories || existingFoodItem.night.calories),
+                {
+                    $set: {
+                        morning: {
+                            name: updateData.morning?.name || existingFoodItem.morning.name,
+                            calories: updateData.morning?.calories ?? existingFoodItem.morning.calories, // Keep existing if not provided
+                            image: updateData.morning?.image || existingFoodItem.morning.image,
+                        },
+                        afternoon: {
+                            name: updateData.afternoon?.name || existingFoodItem.afternoon.name,
+                            calories: updateData.afternoon?.calories ?? existingFoodItem.afternoon.calories,
+                            image: updateData.afternoon?.image || existingFoodItem.afternoon.image,
+                        },
+                        night: {
+                            name: updateData.night?.name || existingFoodItem.night.name,
+                            calories: updateData.night?.calories ?? existingFoodItem.night.calories,
+                            image: updateData.night?.image || existingFoodItem.night.image,
+                        },
+                        dailyVideo: updateData.dailyVideo || existingFoodItem.dailyVideo,
+                        totalCalories:
+                            (updateData.morning?.calories ?? existingFoodItem.morning.calories) +
+                            (updateData.afternoon?.calories ?? existingFoodItem.afternoon.calories) +
+                            (updateData.night?.calories ?? existingFoodItem.night.calories),
+                    },
                 },
                 { new: true }
             );
-
-            res.status(200).json({ success: true, message: `Food item for ${date} in ${category} updated successfully`, updatedFoodItem });
+    
+            res.status(200).json({
+                success: true,
+                message: `Food item for ${date} in ${category} updated successfully`,
+                updatedFoodItem,
+            });
         } catch (error) {
             res.status(500).json({ success: false, error: error.message });
         }
     };
+    
 
     // 5️⃣ Delete food items for a specific date & category (Admin)
     export const deleteFoodItem = async (req, res) => {

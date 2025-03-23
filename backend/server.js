@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser'
 import { connectDB } from './db/connectDB.js';
 import userRoutes from './routes/user.router.js'
 import FoodRoutes from './routes/FoodItem.route.js'
+import UploadRoutes from './routes/upload.route.js'
 import { errorHandler } from './middleware/errormiddleware.js';
 
 
@@ -24,6 +25,7 @@ app.use(cors({
 
 app.use("/api/users", userRoutes);
 app.use("/api/food", FoodRoutes);
+app.use("/api/upload", UploadRoutes);
 
 app.use(errorHandler)
 
