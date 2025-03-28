@@ -5,8 +5,14 @@ import { Link } from "react-router-dom";
 
 export default function Login() {
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
-      <Card className="w-full max-w-md p-6 shadow-lg">
+    <div
+      className="flex items-center justify-center h-screen bg-cover bg-center"
+      style={{
+        backgroundImage:
+          "url('')",
+      }}
+    >
+      <Card className="w-full max-w-md p-6 shadow-lg bg-white bg-opacity-90">
         <h2 className="text-2xl font-semibold text-center">Login</h2>
         <CardContent>
           <div className="space-y-4">

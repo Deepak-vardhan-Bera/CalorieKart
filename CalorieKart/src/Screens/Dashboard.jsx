@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -8,9 +9,9 @@ import { Play, Utensils, Coffee, Moon, User, Info, Clock, AlertCircle } from 'lu
 import { motion } from 'framer-motion';
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const [selectedDay, setSelectedDay] = useState("1");
   const [videoOpen, setVideoOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
   const [recipeOpen, setRecipeOpen] = useState(false);
   const [selectedMeal, setSelectedMeal] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -193,39 +194,14 @@ export default function Dashboard() {
         <div className="container mx-auto px-4 md:px-8 lg:px-12 relative z-10 h-full flex items-end">
           <div className="flex items-center justify-between w-full pb-6">
             <h1 className="text-3xl font-bold text-white">Your Menu</h1>
-            <Dialog open={profileOpen} onOpenChange={setProfileOpen}>
-              <DialogTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full bg-white/20 hover:bg-white/30">
-                  <User size={24} className="text-white" />
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <div className="p-4">
-                  <h2 className="text-xl font-bold mb-4">Profile</h2>
-                  <div className="flex gap-4 items-center mb-6">
-                    <img src="/api/placeholder/80/80" alt="Profile" className="rounded-full" />
-                    <div>
-                      <h3 className="font-medium">John Doe</h3>
-                      <p className="text-sm text-gray-500">Weight Gain Program</p>
-                    </div>
-                  </div>
-                  <div className="space-y-4">
-                    <div className="flex justify-between">
-                      <span>Current Weight</span>
-                      <span className="font-medium">75 kg</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Target Weight</span>
-                      <span className="font-medium">82 kg</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Daily Calorie Goal</span>
-                      <span className="font-medium">2000 cal</span>
-                    </div>
-                  </div>
-                </div>
-              </DialogContent>
-            </Dialog>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="rounded-full bg-white/20 hover:bg-white/30"
+              onClick={() => navigate('/profile')}
+            >
+              <User size={24} className="text-white" />
+            </Button>
           </div>
         </div>
       </div>
@@ -295,7 +271,6 @@ export default function Dashboard() {
                           <span className="text-sm text-gray-500">Remaining</span>
                           <span className="text-xl font-bold">{currentPlan.targetCalories - currentPlan.totalCalories} cal</span>
                         </div>
-                       
                       </div>
                       
                       <Dialog open={videoOpen} onOpenChange={setVideoOpen}>

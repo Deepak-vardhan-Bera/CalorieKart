@@ -74,7 +74,7 @@ function Home() {
               <Link to="/login">Login</Link>
             </Button>
             <Button asChild>
-              <Link to="/dashboard">Get Started</Link>
+              <Link to="/signup">Get Started</Link>
             </Button>
           </div>
         </nav>
@@ -98,11 +98,12 @@ function Home() {
           Experience the perfect blend of nutrition and taste with CalorieKart's personalized meal plans. Fresh, delicious, and tailored to your fitness goals.
         </p>
         <div className="flex items-center space-x-4">
-          <Link to="/dashboard">
-            <Button size="lg" className="bg-primary hover:bg-primary/90 text-white">
-              Start Your Journey <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
+        <Link to="/signup">
+  <Button size="lg" className="bg-primary hover:bg-primary/90 text-white">
+    Start Your Journey <ArrowRight className="ml-2 h-5 w-5" />
+  </Button>
+</Link>
+
           <Button size="lg" variant="outline" className="text-foreground border-foreground/20">
             Watch Demo
           </Button>
@@ -247,7 +248,7 @@ function Home() {
             Join thousands of satisfied customers who have achieved their fitness goals with CalorieKart's personalized meal plans.
           </p>
           <Button size="lg" variant="secondary" className="text-primary" asChild>
-            <Link to="/dashboard">Get Started Today <ArrowRight className="ml-2 h-5 w-5" /></Link>
+            <Link to="/signup">Get Started Today <ArrowRight className="ml-2 h-5 w-5" /></Link>
           </Button>
         </div>
       </section>
